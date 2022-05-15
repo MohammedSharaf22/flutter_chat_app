@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_chat_app/control/constants/firebase_auth_constants.dart';
 import 'package:flutter_chat_app/main.dart';
 import 'package:flutter_chat_app/utilities/collection_enum.dart';
+import 'package:flutter_chat_app/views/pages/chat/room/controller/room_controller.dart';
 import 'package:flutter_chat_app/views/pages/contact/model/user_contact.dart';
 import 'package:flutter_chat_app/views/pages/contact/model/user_model.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
@@ -66,7 +67,7 @@ class ContactsController extends GetxController{
     unregisteredContactsList.clear();
 
     _allContactsList.forEach((element)  async {
-      var stream = await firebaseFirestore.collection(Collections.USERS)
+      var stream = firebaseFirestore.collection(Collections.USERS)
           .where('phone', isEqualTo: element.phone)
           .withConverter(
             fromFirestore: (snapshot, options) => UserContact.fromJson(snapshot.data()!),
@@ -107,28 +108,20 @@ class ContactsController extends GetxController{
   }
 
   DocumentReference getMyUserDocRef()=> firebaseFirestore.collection(Collections.USERS)
-      .doc(auth.currentUser!.uid);//authController.firebaseUser.value.uid
+      .doc(auth.currentUser!.uid);
 
-
+  getRoomByUserId(uid){
+    RoomController.instance.findOrCreateRoomByUserId(uid);
+  }
 }
 
-/*Future<PermissionStatus> _getPermission() async {
-    final PermissionStatus permission = await Permission.contacts.status;
-    if (permission != PermissionStatus.granted &&
-        permission != PermissionStatus.denied) {
-      final Map<Permission, PermissionStatus> permissionStatus = await [Permission.contacts].request();
-      return permissionStatus[Permission.contacts] ?? PermissionStatus.denied;
-    } else {
-      return permission;
-    }
-  }*/
 
 extension Moed on List{
   void addOrUpdate(UserContact item){
     bool exist=false;
     int index=0;
     for(int i=0; i<length; i++) {
-      print("change___ i= $i");
+      debugPrint("change___ i= $i");
       if(this[i].uid==item.uid) {
         exist=true;
         index=i;
@@ -137,12 +130,12 @@ extension Moed on List{
     }
 
     if (exist) {
-      print("change___Update in index= $index");
+      debugPrint("change___Update in index= $index");
       //this.insert(index, item);
       this[index]=item;
     } else {
-      print("change___add");
-      this.add(item);
+      debugPrint("change___add");
+      add(item);
     }
   }
 }

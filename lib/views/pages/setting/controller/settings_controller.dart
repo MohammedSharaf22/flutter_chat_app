@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_app/control/controllers/auth_controller.dart';
 import 'package:flutter_chat_app/utilities/files.dart';
-import 'package:flutter_chat_app/utilities/widgets/setting_item.dart';
+import 'package:flutter_chat_app/views/pages/setting/view/setting_item.dart';
 import 'package:get/get.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:path/path.dart';

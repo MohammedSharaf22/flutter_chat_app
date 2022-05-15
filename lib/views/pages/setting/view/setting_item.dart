@@ -25,12 +25,12 @@ class SettingItem extends StatelessWidget {
       //splashColor: CupertinoTheme.of(context).Colors.systemPurple.withOpacity(.3),
       onTap: onTap,
       child: Container(
-      color: Colors.transparent,
+        color: Colors.transparent,
         padding: const EdgeInsets.only(top: 10, bottom: 10),
         child:  Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: leadingIcon != null ?
-            [
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: leadingIcon != null ?
+          [
               Container(
                 padding: EdgeInsets.all(5),
                 decoration: BoxDecoration(color: bgIconColor, borderRadius: BorderRadius.circular(7)),

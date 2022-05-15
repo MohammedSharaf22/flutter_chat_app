@@ -2,7 +2,7 @@ import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_app/views/pages/setting/controller/settings_controller.dart';
-import 'package:flutter_chat_app/utilities/widgets/setting_item.dart';
+import 'package:flutter_chat_app/views/pages/setting/view/setting_item.dart';
 import 'package:get/get.dart';
 
 
@@ -13,13 +13,10 @@ class SettingPage extends GetView<SettingsController> {
   Widget build(BuildContext context) {
     return GetBuilder<SettingsController>(builder: (controller) {
       return CupertinoPageScaffold(
-        //backgroundColor: bgColor,
         child: NestedScrollView(
           headerSliverBuilder: (context, innerBoxIsScrolled) {
               return [
                 CupertinoSliverNavigationBar(
-                  backgroundColor: CupertinoTheme.of(context).primaryContrastingColor,
-                  //backgroundColor: bgColor,
                   stretch: true,
                   leading: CupertinoButton(
                     padding: EdgeInsets.zero,
@@ -39,12 +36,7 @@ class SettingPage extends GetView<SettingsController> {
                 ),
               ];
               },
-          body: SafeArea(
-            child: Scaffold(
-              backgroundColor: CupertinoTheme.of(context).scaffoldBackgroundColor,
-              body: getBody(controller, context),
-            ),
-          ),
+          body: getBody(controller, context),
         ),
       );
     });
@@ -55,38 +47,35 @@ class SettingPage extends GetView<SettingsController> {
       padding: EdgeInsets.only(left: 20, right: 20),
       shrinkWrap: true,
       children: [
-        Container(
-          /*padding: const EdgeInsets.only(top: 20),*/
-          child: Column(
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CircularProfileAvatar('',
-                    child: Image.file(controller.getUserProfilePhoto()),
-                  ),
-                ],
-              ),
-              SizedBox(height: 15,),
-              Text(controller.getUsername(),
-                style: TextStyle(
-                  fontSize: 22,
-                  color: CupertinoTheme.of(context).textTheme.textStyle.color,
-                  fontWeight: FontWeight.w500
+        Column(
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircularProfileAvatar('',
+                  child: Image.file(controller.getUserProfilePhoto()),
                 ),
+              ],
+            ),
+            SizedBox(height: 15,),
+            Text(controller.getUsername(),
+              style: TextStyle(
+                fontSize: 22,
+                color: CupertinoTheme.of(context).textTheme.textStyle.color,
+                fontWeight: FontWeight.w500
               ),
-              //SizedBox(height: 4,),
-              Text("@sangvaleap",
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: 15,
-                  color: CupertinoTheme.of(context).textTheme.tabLabelTextStyle.color,
-                  fontWeight: FontWeight.w500
-                ),
+            ),
+            Text("@mohammed",
+              textDirection: TextDirection.ltr,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: 15,
+                color: CupertinoTheme.of(context).textTheme.tabLabelTextStyle.color,
+                fontWeight: FontWeight.w500
               ),
-            ],
-          ),
+            ),
+          ],
         ),
         SizedBox(height: 20,),
         Card(
@@ -108,7 +97,7 @@ class SettingPage extends GetView<SettingsController> {
             ),
           ),
         ),
-        SizedBox(height: 20,),
+        SizedBox(height: 20),
         Card(
           shape: BeveledRectangleBorder(borderRadius:  BorderRadius.circular(5)),
           margin: EdgeInsetsDirectional.only(start: 10, end: 10),
