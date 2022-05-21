@@ -30,7 +30,7 @@ class MessageFieldBoxController extends GetxController with GetSingleTickerProvi
   bool isLocked = false;
   bool showLottie = false;
   Color? audioButtonColor;
-  Color audioIconColor = iconColor;
+  Color audioIconColor = iconDynamicColor;
   double slidePositionDx = 128;
   bool isCancel = false;
 
@@ -76,13 +76,13 @@ class MessageFieldBoxController extends GetxController with GetSingleTickerProvi
     );
     animationController.addListener(() {
       if(animationController.isAnimating) {
-        audioButtonColor = primaryColor;
+        audioButtonColor = primaryDynamicColor;
         audioIconColor = Colors.white;
         update();
       }
       else if(animationController.isDismissed) {
         audioButtonColor = null;
-        audioIconColor = iconColor;
+        audioIconColor = iconDynamicColor;
         update();
       }
     });

@@ -208,7 +208,7 @@ class _MyCupertinoButtonState extends State<MyCupertinoButton> with SingleTicker
   bool _buttonLongHeldDown = false;
 
   void _handleLongPressDown(LongPressDownDetails event){
-    print("_handleLongPressDown");
+    debugPrint("_handleLongPressDown");
     if (!_buttonLongHeldDown) {
       _buttonLongHeldDown = true;
       _animateLong();
@@ -216,7 +216,7 @@ class _MyCupertinoButtonState extends State<MyCupertinoButton> with SingleTicker
   }
 
   void _handleLongPressUp(){
-    print("_handleLongPressUp");
+    debugPrint("_handleLongPressUp");
     if (_buttonLongHeldDown) {
       //widget.onLongPressedCancel?.call();
       _buttonLongHeldDown = false;
@@ -225,7 +225,7 @@ class _MyCupertinoButtonState extends State<MyCupertinoButton> with SingleTicker
   }
 
   void _handleLongPressCancel() {
-    print("_handleLongPressCancel");
+    debugPrint("_handleLongPressCancel");
     if (_buttonLongHeldDown) {
       widget.onLongPressedCancel?.call();
       _buttonLongHeldDown = false;

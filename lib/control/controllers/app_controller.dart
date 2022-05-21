@@ -1,28 +1,33 @@
-import 'package:fireflutter/fireflutter.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_chat_app/control/constants/firebase_auth_constants.dart';
-import 'package:flutter_chat_app/utilities/tabs.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-class AppController extends GetxController with GetSingleTickerProviderStateMixin {
+
+const tabIndexKey = 'tab_index';
+
+class AppController extends GetxController {
   static AppController instance = Get.find();
-  late List textItems ;
-  var tabIndex=0;
-  late TabController tabController;
+  var tabIndex = 0;
+  late CupertinoTabController tabController;
+
+  List labelItems = [
+    "chats".tr,
+    "status".tr,
+    "contacts".tr,
+    "settings".tr,
+  ];
 
   List iconItems = [
-    CupertinoIcons.chat_bubble_fill,
+    CupertinoIcons.chat_bubble_2_fill, //chat_bubble_fill
     CupertinoIcons.circle_fill,
-    CupertinoIcons.person_alt_circle_fill,
-    CupertinoIcons.settings,
+    CupertinoIcons.person_crop_circle_fill, //person_alt_circle_fill
+    CupertinoIcons.settings_solid,
   ];
 
   List iconItemsOutline = [
-    CupertinoIcons.chat_bubble,
+    CupertinoIcons.chat_bubble_2, //chat_bubble
     CupertinoIcons.circle,
-    CupertinoIcons.person_alt_circle,
+    CupertinoIcons.person_crop_circle, //person_alt_circle
     CupertinoIcons.settings,
   ];
 
@@ -30,26 +35,16 @@ class AppController extends GetxController with GetSingleTickerProviderStateMixi
   @override
   void onInit() {
     super.onInit();
-
-    /*tabController = TabController(
-      initialIndex: tabIndex=0,
-      length: Tabs.values.length,
-      vsync: this,
-    );
-    tabController.addListener(() => changeTabIndex(tabController.index));*/
-    //print("tabController index= ${tabController.index},  _controller index= $tabIndex");
-
-    textItems = ["status".tr, "calls".tr, "camera".tr, "chats".tr, "settings".tr];
-    //PresenceService
-
+    var storage = GetStorage();
+    if (storage.hasData(tabIndexKey)) {
+      tabIndex = storage.read(tabIndexKey);
+    }
+    tabController = CupertinoTabController(initialIndex: tabIndex);
   }
 
   void changeTabIndex(int index) {
     tabIndex = index;
     update();
-  }
-   @override
-  void onClose() {
-    super.onClose();
+    GetStorage().write(tabIndexKey, tabIndex);
   }
 }

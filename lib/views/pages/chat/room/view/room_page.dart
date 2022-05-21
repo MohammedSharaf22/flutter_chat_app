@@ -36,7 +36,9 @@ class RoomPage extends GetView<RoomController> {
                   padding: EdgeInsets.zero,
                   child: Text("edit".tr,
                     style: TextStyle(
-                      fontWeight: FontWeight.bold,),),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   onPressed: () {
                     Get.to(()=> TempPage());
                   },

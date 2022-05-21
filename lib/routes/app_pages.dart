@@ -4,7 +4,7 @@ import 'package:flutter_chat_app/views/pages/chat/message/view/message_page.dart
 import 'package:flutter_chat_app/views/pages/chat/room/view/room_page.dart';
 import 'package:flutter_chat_app/views/pages/contact/view/contacts_page.dart';
 import 'package:flutter_chat_app/views/pages/setting/view/setting_page.dart';
-import 'package:flutter_chat_app/views/pages/status/status_page.dart';
+import 'package:flutter_chat_app/views/pages/status/view/status_page.dart';
 import 'package:flutter_chat_app/views/splash_ui.dart';
 import 'package:get/get.dart';
 

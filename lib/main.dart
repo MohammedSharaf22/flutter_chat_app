@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:fireflutter/fireflutter.dart' as fire_flutter;
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_chat_app/control/constants/firebase_auth_constants.dart';
 import 'package:flutter_chat_app/control/controllers/language_controller.dart';
 import 'package:flutter_chat_app/control/controllers/auth_controller.dart';
@@ -31,11 +30,12 @@ late Directory dir;
 late List<CameraDescription> cameras;
 
 void main() async {
-
   await initHive();
 
   await GetStorage.init();
+
   dir = await getApplicationDocumentsDirectory();
+
   Get.put<LanguageController>(LanguageController());
   //firebaseFirestore.settings=Settings(cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
   //GetStorage().remove('language');
@@ -92,10 +92,11 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance!.addObserver(this);
     fire_flutter.PresenceService.instance.activate(
       onError: (e) {
         debugPrint('--> Presence error: $e');
@@ -104,8 +105,28 @@ class _MyAppState extends State<MyApp> {
   }
 
   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    debugPrint("AppLifecycleState= ${state.name}");
+    switch (state) {
+      case AppLifecycleState.resumed:
+        fire_flutter.PresenceService.instance.setPresence(fire_flutter.PresenceStatus.online);
+        break;
+      case AppLifecycleState.inactive:
+        fire_flutter.PresenceService.instance.setPresence(fire_flutter.PresenceStatus.away);
+        break;
+      case AppLifecycleState.paused:
+        fire_flutter.PresenceService.instance.setPresence(fire_flutter.PresenceStatus.away);
+        break;
+      case AppLifecycleState.detached:
+        break;
+    }
+  }
+
+  @override
   void dispose() {
     super.dispose();
+    WidgetsBinding.instance!.removeObserver(this);
     fire_flutter.PresenceService.instance.deactivate();
   }
 

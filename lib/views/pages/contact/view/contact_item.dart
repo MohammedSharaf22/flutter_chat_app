@@ -22,8 +22,12 @@ class ContactItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var nameTextStyle = CupertinoTheme.of(context).textTheme.textStyle;
-    var phoneTextStyle = nameTextStyle.copyWith(
-        color: nameTextStyle.color!.withOpacity(.5));
+    var phoneTextStyle = CupertinoTheme.of(context).textTheme.tabLabelTextStyle;
+    /*nameTextStyle.copyWith(
+      color: nameTextStyle.color!.withOpacity(.5),
+
+    );*/
+    //debugPrint("fontSize= ${nameTextStyle.fontSize}");
     return Column(
       children: [
         Material(
@@ -38,10 +42,13 @@ class ContactItem extends StatelessWidget {
                   Get.snackbar("title", "message");
                 },
               ),
-              title: Text(
-                name,
-                overflow: TextOverflow.ellipsis,
-                style: nameTextStyle,
+              title: Align(
+                alignment: AlignmentDirectional.centerStart,
+                child: Text(
+                  name,
+                  overflow: TextOverflow.ellipsis,
+                  style: nameTextStyle,
+                ),
               ),
               subtitle: Align(
                 alignment: AlignmentDirectional.centerStart,

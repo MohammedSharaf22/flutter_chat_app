@@ -3,14 +3,11 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_chat_app/main.dart';
+import 'package:flutter_chat_app/control/controllers/app_controller.dart';
 import 'package:flutter_chat_app/utilities/collection_enum.dart';
 import 'package:flutter_chat_app/views/pages/app.dart';
-import 'package:flutter_chat_app/views/pages/chat/message/controller/message_controller.dart';
 import 'package:flutter_chat_app/views/pages/chat/room/controller/room_controller.dart';
-import 'package:flutter_chat_app/views/pages/chat/room/db_helper/room_db_helper.dart';
 import 'package:flutter_chat_app/views/pages/contact/controller/contacts_controller.dart';
-import 'package:flutter_chat_app/views/pages/contact/model/user_contact.dart';
 import 'package:flutter_chat_app/views/pages/contact/model/user_model.dart';
 import 'package:flutter_chat_app/views/register_page/profile_page.dart';
 import 'package:get_storage/get_storage.dart';
@@ -19,7 +16,6 @@ import 'package:flutter_chat_app/control/constants/firebase_auth_constants.dart'
 import 'package:flutter_chat_app/views/register_page/otp_page.dart';
 import 'package:flutter_chat_app/views/register_page/welcome_page.dart';
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:phone_form_field/phone_form_field.dart';
 
@@ -114,7 +110,7 @@ class AuthController extends GetxController with GetSingleTickerProviderStateMix
     } else {
       //Get.offAll(() => RootApp(), binding: RootBinding());
       if (GetStorage().read('otp_is_done') == '1' && GetStorage().read('profile_is_done') == '1') {
-        print("offAll App");
+        debugPrint("offAll App");
         Get.offAll(() => App(), binding: AppBinding());
       }
       else if (GetStorage().read('otp_is_done') == '1' && !GetStorage().hasData('profile_is_done')) {
@@ -206,7 +202,7 @@ class AuthController extends GetxController with GetSingleTickerProviderStateMix
             }));
 
         userModel.photoURL = await (await uploadTask).ref.getDownloadURL();
-        print('event.ref.getDownloadURL() =  ${userModel.photoURL}');
+        debugPrint('event.ref.getDownloadURL() =  ${userModel.photoURL}');
         //isLoadingPhoto = false;
       } on FirebaseException catch (error) {
         if (kDebugMode) print(error);
@@ -261,18 +257,20 @@ class AuthController extends GetxController with GetSingleTickerProviderStateMix
 
   Future<dynamic> getUserPhoto() async {
     var phone = firebaseUser.value!.phoneNumber.toString();
-    String url="";
+    String url = "";
     try{
       url = await firebaseStorage.ref('profilePhoto/$phone.jpg')
           .getDownloadURL();
-    }catch(e){}
+    }catch(e){
+      debugPrint("");
+    }
 
 
     if(url.isEmpty)
       url = await firebaseStorage.ref('profilePhoto/profile_placeholder.jpg').getDownloadURL();
-    print("url $url");
+    debugPrint("url $url");
     userModel.photoURL = url;
-    print('userModel.photoURL =  ${userModel.photoURL}');
+    debugPrint('userModel.photoURL =  ${userModel.photoURL}');
     return url;
   }
 
@@ -290,6 +288,7 @@ class AuthController extends GetxController with GetSingleTickerProviderStateMix
     RoomController.instance.messageBox.clear();
     GetStorage().remove('profile_is_done');
     GetStorage().remove('otp_is_done');
+    GetStorage().remove(tabIndexKey);
     //await UserModelDBHelper.instance.deleteDB();
     auth.signOut();
   }

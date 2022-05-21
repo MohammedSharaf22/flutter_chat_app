@@ -21,6 +21,7 @@ import 'package:flutter_chat_app/utilities/date_formatter_tools.dart';
 import 'package:flutter_chat_app/views/pages/chat/message/widget/bubble/bubble_text_message.dart';
 import 'package:flutter_chat_app/views/pages/chat/message/widget/bubble/bubble_video_message.dart';
 import 'package:flutter_chat_app/views/pages/chat/message/widget/square_camera_widget.dart';
+import 'package:flutter_chat_app/views/pages/chat/message/widget/top_box/user_info_widget.dart';
 import 'package:flutter_chat_app/views/pages/chat/room/controller/room_controller.dart';
 import 'package:flutter_chat_app/views/pages/chat/room/model/room.dart';
 import 'package:flutter_chat_app/views/pages/contact/model/user_contact.dart';
@@ -57,7 +58,7 @@ class MessagePage extends GetView<MessageController> {
       },
       child: CupertinoPageScaffold(
         backgroundColor: MyDarkTheme.barBackgroundColor,
-        navigationBar: getAppBar(),
+        navigationBar: getAppBar(context),
         child: Stack(
           children: [
             /*Image.asset(
@@ -77,9 +78,9 @@ class MessagePage extends GetView<MessageController> {
     );
   }
 
-  MyCupertinoNavigationBar getAppBar() {
+  MyCupertinoNavigationBar getAppBar(context) {
     return MyCupertinoNavigationBar(
-      padding: EdgeInsetsDirectional.only(top: 10, bottom: 10),
+      padding: EdgeInsetsDirectional.only(top: 5, bottom: 5),
       leading: GetBuilder<MessageController>(tag: tag, builder: (_) {
         if (controller.isSelectionMode) {
           return CupertinoButton(
@@ -88,7 +89,9 @@ class MessagePage extends GetView<MessageController> {
                 controller.disableSelectionMode();
               });
         } else {
-          return MyCupertinoNavigationBarBackButton();
+          return MyCupertinoNavigationBarBackButton(
+            onPressed: () => Get.back(),
+          );
         }
       }),
       middle: GetBuilder<MessageController>(tag: tag, builder: (_) {
@@ -96,7 +99,7 @@ class MessagePage extends GetView<MessageController> {
         var selectedText= "selected".tr;
         return controller.isSelectionMode
             ? Text("$count $selectedText")
-            : getUserInfoWidget();
+            : UserInfoWidget(userContact: userContact,);
       }),
       trailing: GetBuilder<MessageController>(tag: tag, builder: (_) {
         if (controller.isSelectionMode)
@@ -130,20 +133,30 @@ class MessagePage extends GetView<MessageController> {
   }
 
   String getState(PresenceType type, int lastSeen) {
-    if (type == PresenceType.online) {
+    if (type == PresenceType.online)
       return type.name.tr;
-    }
-    else {
-      return DateFormatterTools(lastSeen).formatMessageTime();
-    }
+    //var dateTimeSeen = Duration(milliseconds: lastSeen);
+    var dateTimeSeen = DateTime.fromMillisecondsSinceEpoch(lastSeen, );
+    debugPrint("dateTimeSeen= ${dateTimeSeen.toString()}");
+    debugPrint("lastSeen= $lastSeen");
+    return DateFormatterTools(lastSeen).formatStateTime();
   }
 
-  getUserInfoWidget() {
+  getBadgeColor(PresenceType type){
+    if(type == PresenceType.online)
+      return Colors.green;
+    else if(type == PresenceType.offline)
+      return Colors.pink;
+    return Colors.yellow;
+  }
+
+  getUserInfoWidget(context) {
     return UserPresence(
       uid: userContact.uid,
       builder: (PresenceType type, int lastSeen) {
         var state = getState(type, lastSeen);
         return Row(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(
               width: 40,
@@ -160,11 +173,7 @@ class MessagePage extends GetView<MessageController> {
                     toAnimate: false,
                     shape: BadgeShape.circle,
                     position: BadgePosition.bottomEnd(),
-                    badgeColor: type == PresenceType.online
-                        ? Colors.green
-                        : (type == PresenceType.offline
-                        ? Colors.red
-                        : Colors.yellow),
+                    badgeColor: getBadgeColor(type),
                     child: SizedBox(height: 30, width: 30),
                     elevation: 3,
                     borderSide: BorderSide(width: 0.5, color: Colors.white10),
@@ -175,15 +184,25 @@ class MessagePage extends GetView<MessageController> {
             SizedBox(width: 10),
             SizedBox(
               width: 150,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "${userContact.name}",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  Text(state, style: TextStyle(fontSize: 12)),
-                ],
+              child: GestureDetector(
+                onTap: () {
+
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "${userContact.name}",
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      state,
+                      style: CupertinoTheme.of(context).textTheme.tabLabelTextStyle,
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

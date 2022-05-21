@@ -48,7 +48,7 @@ class MessageFieldBox extends GetView<MessageFieldBoxController> {
                 minSize: 10,
                 padding: EdgeInsets.zero,
                 child: Icon(Ionicons.attach, size: 28,
-                    color: iconColor),
+                    color: iconDynamicColor),
                 onPressed: onLeadingBtnPressed,
               ),
             ),
@@ -65,7 +65,7 @@ class MessageFieldBox extends GetView<MessageFieldBoxController> {
               child: Visibility(
                 visible: controller.messageSecondState,
                 replacement: CupertinoButton(
-                  color: primaryColor,
+                  color: primaryDynamicColor,
                   borderRadius: BorderRadius.circular(30),
                   minSize: 45,
                   padding: EdgeInsets.all(5),
@@ -267,7 +267,7 @@ class MessageFieldBox extends GetView<MessageFieldBoxController> {
               ),
 
               CupertinoButton(
-                color: primaryColor,
+                color: primaryDynamicColor,
                 borderRadius: BorderRadius.circular(30),
                 minSize: 45,
                 padding: EdgeInsets.zero,
@@ -337,7 +337,7 @@ class MessageFieldBox extends GetView<MessageFieldBoxController> {
         padding: EdgeInsets.symmetric(horizontal: 10),
         placeholder: "type_a_message".tr,
         suffix: CupertinoButton(
-          child: Icon(Ionicons.document, size: 20, color: iconColor),
+          child: Icon(Ionicons.document, size: 20, color: iconDynamicColor),
           padding: EdgeInsets.all(5),
           onPressed: () {},
         ),
@@ -363,7 +363,7 @@ class MessageFieldBox extends GetView<MessageFieldBoxController> {
     required VoidCallback onPressed,
   }) {
     icon ??= Icon(iconData,
-        size: size ?? 28, color: color ?? primaryColor);
+        size: size ?? 28, color: color ?? primaryDynamicColor);
     return CupertinoButton(
       minSize: 10,
       padding: EdgeInsets.zero,

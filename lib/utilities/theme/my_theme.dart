@@ -6,12 +6,12 @@ CupertinoDynamicColor fieldBackgroundColor = CupertinoDynamicColor.withBrightnes
   darkColor: MyDarkTheme.fieldColor,
 );
 
-CupertinoDynamicColor iconColor = CupertinoDynamicColor.withBrightness(
+CupertinoDynamicColor iconDynamicColor = CupertinoDynamicColor.withBrightness(
   color: MyLightTheme.iconColor,
   darkColor: MyDarkTheme.iconColor,
 );
 
-CupertinoDynamicColor primaryColor = CupertinoDynamicColor.withBrightness(
+CupertinoDynamicColor primaryDynamicColor = CupertinoDynamicColor.withBrightness(
   color: MyLightTheme.primaryColor,
   darkColor: MyDarkTheme.primaryColor,
 );
@@ -33,10 +33,17 @@ class MyDarkTheme {
 
   static const Color iconColor = Color.fromRGBO(126, 147, 159, 1);
 
-  static const CupertinoTextThemeData textTheme = CupertinoTextThemeData(
+  static const Color textColor = CupertinoColors.white;
+
+  static CupertinoTextThemeData textTheme = CupertinoTextThemeData(
     primaryColor: primaryColor,
-    textStyle: TextStyle(color: CupertinoColors.white),
+    textStyle: TextStyle(color: textColor),
+    tabLabelTextStyle: TextStyle(
+      color: textColor.withOpacity(.4),
+      fontSize: 12,
+    ),
   );
+
 }
 
 class MyLightTheme {
@@ -52,8 +59,14 @@ class MyLightTheme {
 
   static const Color iconColor = Color.fromRGBO(133, 142, 153, 1);
 
-  static const CupertinoTextThemeData textTheme = CupertinoTextThemeData(
+  static const Color textColor = CupertinoColors.label;
+
+  static CupertinoTextThemeData textTheme = CupertinoTextThemeData(
     primaryColor: primaryColor,
-    textStyle: TextStyle(color: CupertinoColors.label),
+    textStyle: TextStyle(color: textColor),
+    tabLabelTextStyle: TextStyle(
+      color: textColor.withOpacity(.4),
+      fontSize: 12,
+    ),
   );
 }

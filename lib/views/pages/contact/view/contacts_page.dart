@@ -1,4 +1,3 @@
-import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_app/views/pages/chat/message/widget/bottom_box/message_field_box_controller.dart';
@@ -11,9 +10,8 @@ import 'package:flutter_chat_app/views/pages/chat/message/view/message_page.dart
 import 'package:flutter_chat_app/views/pages/contact/model/user_contact.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:ionicons/ionicons.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-
+import '../../../../utilities/theme/my_theme.dart';
 import 'contact_item.dart';
 
 class ContactsPage extends GetView<ContactsController> {
@@ -37,16 +35,19 @@ class ContactsPage extends GetView<ContactsController> {
                 stretch: true,
                 leading: CupertinoButton(
                   padding: EdgeInsets.zero,
-                  child: Text("edit".tr,
+                  child: Text("sort".tr,
                     style: TextStyle(
-                      fontWeight: FontWeight.bold,),),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   onPressed: () {},
                 ),
                 middle: Text("contacts".tr),
-                //border: Border.all(color: CColors.transparent),
+                border: Border.all(color: Colors.transparent),
                 largeTitle: Container(width: double.infinity, height: 38,
-                  padding: EdgeInsetsDirectional.only(end: 10, top: 5),
+                  padding: EdgeInsetsDirectional.only(end: 15,/* top: 5*/),
                   child: CupertinoSearchTextField(
+                    backgroundColor: fieldBackgroundColor,
                     padding: EdgeInsetsDirectional.only(start: 5),
                     prefixInsets: EdgeInsetsDirectional.only(start: 5),
                     placeholder: "search".tr,
@@ -56,7 +57,7 @@ class ContactsPage extends GetView<ContactsController> {
                 trailing: CupertinoButton(
                   onPressed: () {},
                   padding: EdgeInsets.zero,
-                  child: Icon(Ionicons.create_outline),
+                  child: Icon(CupertinoIcons.add),
                 ),
               ),
             ];
@@ -73,17 +74,16 @@ class ContactsPage extends GetView<ContactsController> {
               await controller.getContact();
               _refreshController.refreshCompleted();
             },
-            //crossAxisAlignment: CrossAxisAlignment.start,
             child: ListView(
               shrinkWrap: true,
               physics: PageScrollPhysics(),
               children: [
-
                 getBody(context),
                 Divider(height: 40, thickness: 20),
                 CupertinoButton(
+                  alignment: AlignmentDirectional.centerStart,
                   child: Text("invite_friends".tr,
-                    style: TextStyle(color: Colors.blue),
+                    //style: TextStyle(color: Colors.blue),
                   ),
                   onPressed: () {},
                 ),
@@ -94,8 +94,6 @@ class ContactsPage extends GetView<ContactsController> {
       );
     });
   }
-
-
 
   Widget getBody(context) {
     return ValueListenableBuilder(
