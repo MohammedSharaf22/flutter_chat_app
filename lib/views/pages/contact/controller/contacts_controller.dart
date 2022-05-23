@@ -4,6 +4,7 @@ import 'package:flutter_chat_app/control/constants/firebase_auth_constants.dart'
 import 'package:flutter_chat_app/main.dart';
 import 'package:flutter_chat_app/utilities/collection_enum.dart';
 import 'package:flutter_chat_app/views/pages/chat/room/controller/room_controller.dart';
+import 'package:flutter_chat_app/views/pages/chat/room/model/room.dart';
 import 'package:flutter_chat_app/views/pages/contact/model/user_contact.dart';
 import 'package:flutter_chat_app/views/pages/contact/model/user_model.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
@@ -110,8 +111,8 @@ class ContactsController extends GetxController{
   DocumentReference getMyUserDocRef()=> firebaseFirestore.collection(Collections.USERS)
       .doc(auth.currentUser!.uid);
 
-  getRoomByUserId(uid){
-    RoomController.instance.findOrCreateRoomByUserId(uid);
+  Room getRoomByUserId(uid){
+    return RoomController.instance.findOrCreateRoomByUserId(uid);
   }
 }
 

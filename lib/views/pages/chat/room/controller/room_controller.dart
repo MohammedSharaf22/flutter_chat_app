@@ -222,18 +222,21 @@ class RoomController extends GetxController{
         defaultValue: roomBox.get(
           otherToMe,
           defaultValue: Room(
-            meToOther,
-            DateTime.now().millisecondsSinceEpoch,
-            null, null, null,
-            RoomType.CHAT,
-            DateTime.now().millisecondsSinceEpoch,
-            [auth.currentUser!.uid, userId], '',
+            roomId: meToOther,
+            createdAt: DateTime.now().millisecondsSinceEpoch,
+            imageUrl: null,
+            metadata: null,
+            name: null,
+            type: RoomType.CHAT,
+            updatedAt: DateTime.now().millisecondsSinceEpoch,
+            userIds: [auth.currentUser!.uid, userId],
+            lastMessageId: '',
           ),
         ),
     )!;
   }
 
-  Room _createAndGetNewRoom(roomId, userId){
+  /*Room _createAndGetNewRoom(roomId, userId){
     var room = Room(
       roomId,
       DateTime.now().millisecondsSinceEpoch,
@@ -244,7 +247,7 @@ class RoomController extends GetxController{
     );
     roomBox.put(room.roomId, room);
     return room;
-  }
+  }*/
 
   void setReceiveMessages(String activeRoomId, Function(DocumentChange<Message>) receiveMessages){
     _activeRoomId = activeRoomId;

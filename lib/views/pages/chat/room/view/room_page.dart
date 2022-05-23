@@ -123,7 +123,6 @@ class RoomPage extends GetView<RoomController> {
 
 
   Widget getBody(context) {
-    //var size = MediaQuery.of(context).size;
     return ListView(
       children: [
         Padding(

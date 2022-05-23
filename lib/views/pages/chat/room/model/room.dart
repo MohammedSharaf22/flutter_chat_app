@@ -44,8 +44,17 @@ class Room /*extends HiveObject*/{
   @HiveField(8)
   String? lastMessageId;
 
-  Room(this.roomId, this.createdAt, this.imageUrl, this.metadata, this.name,
-      this.type, this.updatedAt, this.userIds, this.lastMessageId);
+  Room({
+    required this.roomId,
+    required this.createdAt,
+    this.imageUrl,
+    this.metadata,
+    this.name,
+    required this.type,
+    this.updatedAt,
+    required this.userIds,
+    this.lastMessageId
+  });
 
   factory Room.fromJson(Map<String, dynamic> json) => _$RoomFromJson(json);
   Map<String, dynamic> toJson() => _$RoomToJson(this);

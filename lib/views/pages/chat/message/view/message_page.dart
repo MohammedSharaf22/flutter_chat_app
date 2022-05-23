@@ -1,10 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:adaptive_theme/adaptive_theme.dart';
-import 'package:badges/badges.dart';
-import 'package:circular_profile_avatar/circular_profile_avatar.dart';
-import 'package:fireflutter/fireflutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_app/utilities/theme/my_theme.dart';
@@ -57,7 +53,7 @@ class MessagePage extends GetView<MessageController> {
         return true;
       },
       child: CupertinoPageScaffold(
-        backgroundColor: MyDarkTheme.barBackgroundColor,
+        backgroundColor: MyDarkTheme.scaffoldBackgroundColor,
         navigationBar: getAppBar(context),
         child: Stack(
           children: [
@@ -129,85 +125,6 @@ class MessagePage extends GetView<MessageController> {
           onPressed: () => Get.to(() => VideoCall()),
         ),
       ],
-    );
-  }
-
-  String getState(PresenceType type, int lastSeen) {
-    if (type == PresenceType.online)
-      return type.name.tr;
-    //var dateTimeSeen = Duration(milliseconds: lastSeen);
-    var dateTimeSeen = DateTime.fromMillisecondsSinceEpoch(lastSeen, );
-    debugPrint("dateTimeSeen= ${dateTimeSeen.toString()}");
-    debugPrint("lastSeen= $lastSeen");
-    return DateFormatterTools(lastSeen).formatStateTime();
-  }
-
-  getBadgeColor(PresenceType type){
-    if(type == PresenceType.online)
-      return Colors.green;
-    else if(type == PresenceType.offline)
-      return Colors.pink;
-    return Colors.yellow;
-  }
-
-  getUserInfoWidget(context) {
-    return UserPresence(
-      uid: userContact.uid,
-      builder: (PresenceType type, int lastSeen) {
-        var state = getState(type, lastSeen);
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SizedBox(
-              width: 40,
-              height: 40,
-              child: Stack(
-                children: [
-                  CircularProfileAvatar(
-                    userContact.photoURL,
-                    animateFromOldImageOnUrlChange: false,
-                    imageFit: BoxFit.cover,
-                    radius: 20,
-                  ),
-                  Badge(
-                    toAnimate: false,
-                    shape: BadgeShape.circle,
-                    position: BadgePosition.bottomEnd(),
-                    badgeColor: getBadgeColor(type),
-                    child: SizedBox(height: 30, width: 30),
-                    elevation: 3,
-                    borderSide: BorderSide(width: 0.5, color: Colors.white10),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(width: 10),
-            SizedBox(
-              width: 150,
-              child: GestureDetector(
-                onTap: () {
-
-                },
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "${userContact.name}",
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      state,
-                      style: CupertinoTheme.of(context).textTheme.tabLabelTextStyle,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        );
-      },
     );
   }
 

@@ -68,6 +68,7 @@ class Localization extends Translations {
 'selected': 'Selected',
 'invite_friends': 'Invite Friends',
 'sort': 'Sort',
+'last_seen': 'Last seen',
 },
 'ar': {
 'about_you': 'عنك',
@@ -134,6 +135,7 @@ class Localization extends Translations {
 'selected': 'محددة',
 'invite_friends': 'دعوة الأصدقاء',
 'sort': 'ترتيب',
+'last_seen': 'اخر ظهور',
 },
         };
       }

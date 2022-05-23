@@ -1,12 +1,12 @@
 import 'dart:io';
 
 import 'package:camera/camera.dart';
-import 'package:fireflutter/fireflutter.dart' as fire_flutter;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_chat_app/control/constants/firebase_auth_constants.dart';
 import 'package:flutter_chat_app/control/controllers/language_controller.dart';
 import 'package:flutter_chat_app/control/controllers/auth_controller.dart';
 import 'package:flutter_chat_app/control/language/localization.g.dart';
+import 'package:flutter_chat_app/utilities/presence/presence_service.dart';
 import 'package:flutter_chat_app/utilities/theme/my_theme.dart';
 import 'package:flutter_chat_app/utilities/collection_enum.dart';
 import 'package:flutter_chat_app/views/pages/chat/message/db_helper/message_db_helper.dart';
@@ -97,7 +97,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
   void initState() {
     super.initState();
     WidgetsBinding.instance!.addObserver(this);
-    fire_flutter.PresenceService.instance.activate(
+    PresenceService.instance.activate(
       onError: (e) {
         debugPrint('--> Presence error: $e');
       },
@@ -110,13 +110,13 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
     debugPrint("AppLifecycleState= ${state.name}");
     switch (state) {
       case AppLifecycleState.resumed:
-        fire_flutter.PresenceService.instance.setPresence(fire_flutter.PresenceStatus.online);
+        PresenceService.instance.setPresence(PresenceStatus.online);
         break;
       case AppLifecycleState.inactive:
-        fire_flutter.PresenceService.instance.setPresence(fire_flutter.PresenceStatus.away);
+        PresenceService.instance.setPresence(PresenceStatus.away);
         break;
       case AppLifecycleState.paused:
-        fire_flutter.PresenceService.instance.setPresence(fire_flutter.PresenceStatus.away);
+        PresenceService.instance.setPresence(PresenceStatus.away);
         break;
       case AppLifecycleState.detached:
         break;
@@ -127,7 +127,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
   void dispose() {
     super.dispose();
     WidgetsBinding.instance!.removeObserver(this);
-    fire_flutter.PresenceService.instance.deactivate();
+    PresenceService.instance.deactivate();
   }
 
   @override
@@ -136,8 +136,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
         builder: (languageController) {
       return CupertinoAdaptiveTheme(
         light: CupertinoThemeData(
-          primaryColor: MyLightTheme.primaryColor,
           brightness: Brightness.light,
+          primaryColor: MyLightTheme.primaryColor,
           barBackgroundColor: MyLightTheme.barBackgroundColor,
           scaffoldBackgroundColor: MyLightTheme.scaffoldBackgroundColor,
           primaryContrastingColor: MyLightTheme.primaryContrastingColor,

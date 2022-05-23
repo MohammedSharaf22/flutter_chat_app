@@ -17,15 +17,15 @@ class RoomAdapter extends TypeAdapter<Room> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Room(
-      fields[0] as String,
-      fields[1] as int,
-      fields[2] as String?,
-      fields[3] as String?,
-      fields[4] as String?,
-      fields[5] as int,
-      fields[6] as int?,
-      (fields[7] as List).cast<dynamic>(),
-      fields[8] as String?,
+      roomId: fields[0] as String,
+      createdAt: fields[1] as int,
+      imageUrl: fields[2] as String?,
+      metadata: fields[3] as String?,
+      name: fields[4] as String?,
+      type: fields[5] as int,
+      updatedAt: fields[6] as int?,
+      userIds: (fields[7] as List).cast<dynamic>(),
+      lastMessageId: fields[8] as String?,
     );
   }
 
@@ -69,15 +69,15 @@ class RoomAdapter extends TypeAdapter<Room> {
 // **************************************************************************
 
 Room _$RoomFromJson(Map<String, dynamic> json) => Room(
-      json['roomId'] as String,
-      json['createdAt'] as int,
-      json['imageUrl'] as String?,
-      json['metadata'] as String?,
-      json['name'] as String?,
-      json['type'] as int,
-      json['updatedAt'] as int?,
-      json['userIds'] as List<dynamic>,
-      json['lastMessage'] as String?,
+      roomId: json['roomId'] as String,
+      createdAt: json['createdAt'] as int,
+      imageUrl: json['imageUrl'] as String?,
+      metadata: json['metadata'] as String?,
+      name: json['name'] as String?,
+      type: json['type'] as int,
+      updatedAt: json['updatedAt'] as int?,
+      userIds: json['userIds'] as List<dynamic>,
+      lastMessageId: json['lastMessageId'] as String?,
     );
 
 Map<String, dynamic> _$RoomToJson(Room instance) => <String, dynamic>{
@@ -89,5 +89,5 @@ Map<String, dynamic> _$RoomToJson(Room instance) => <String, dynamic>{
       'type': instance.type,
       'updatedAt': instance.updatedAt,
       'userIds': instance.userIds,
-      'lastMessage': instance.lastMessageId,
+      'lastMessageId': instance.lastMessageId,
     };
